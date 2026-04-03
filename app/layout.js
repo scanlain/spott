@@ -2,6 +2,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "@/components/header";
+import { ConvexClientProvider } from "./ConvexClientProvider";
+import { ClerkProvider } from "@clerk/nextjs";
+ import { dark } from '@clerk/ui/themes'
+
 
 export const metadata = {
   title: "Spott - Discover Amazing Places",
@@ -23,24 +27,36 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          {/* Header */}
-          <Header/>
+          <ClerkProvider
+            appearance={{
+              theme: dark,
+            }}
+          >
 
-          <main className="relative min-h-screen container mx-auto pt-40 md:pt-32">
-            {/* glow */}
-            <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-              <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl" />
-            </div>
+            <ConvexClientProvider>
 
-            <div className="relative z-10">{children}</div>
-          </main>
+              {/* Header */}
+              <Header/>
 
-          {/* Footer */}
-          <footer className="text-center text-sm text-zinc-500 py-6 border-t border-zinc-800">
-            © {new Date().getFullYear()} Spott — Every great story starts with a
-            place.
-          </footer>
+              <main className="relative min-h-screen container mx-auto pt-40 md:pt-32">
+                {/* glow */}
+                <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+                  <div className="absolute top-0 left-1/4 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl" />
+                  <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl" />
+                </div>
+
+                <div className="relative z-10">{children}</div>
+              </main>
+
+              {/* Footer */}
+              <footer className="text-center text-sm text-zinc-500 py-6 border-t border-zinc-800">
+                © {new Date().getFullYear()} Spott — Every great story starts with a
+                place.
+              </footer>
+            </ConvexClientProvider>
+          
+          </ClerkProvider>
+        
         </ThemeProvider>
       </body>
     </html>
