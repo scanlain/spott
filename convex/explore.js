@@ -64,7 +64,7 @@ export const getPopularEvents = query({
 //Get events by mentioned category
 export const getEventsByCategory = query({
     args: {
-        limit: v.optional(v.string()),
+        limit: v.optional(v.number()),
         category: v.string()
     },
 
