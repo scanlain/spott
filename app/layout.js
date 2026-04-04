@@ -5,6 +5,7 @@ import Header from "@/components/header";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
  import { dark } from '@clerk/ui/themes'
+import { Toaster } from "sonner";
 
 
 export const metadata = {
@@ -53,6 +54,7 @@ export default function RootLayout({ children }) {
                 © {new Date().getFullYear()} Spott — Every great story starts with a
                 place.
               </footer>
+              <Toaster richColors/>
             </ConvexClientProvider>
           
           </ClerkProvider>
