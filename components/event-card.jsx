@@ -3,14 +3,14 @@ import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { getCategoryIcon, getCategoryLabel } from "@/lib/data";
 import { format } from "date-fns";
-import { Calendar, MapPin, Trash2, Users } from "lucide-react";
+import { Calendar, Eye, MapPin, QrCode, Trash2, Users, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
 const EventCard = ({
   event,
   onClick,
-  showActions = false,
+  action = null, //"event" | "ticket" | null
   onDelete,
   variant = "grid",
   className = "",
@@ -123,8 +123,8 @@ const EventCard = ({
             </div>
           </div>
 
-          {showActions && (
-            <div>
+          {action && (
+            <div className="flex gap-2 pt-2">
                 <Button
                     variant="outline"
                     size="sm"
@@ -134,7 +134,17 @@ const EventCard = ({
                         onClick?.(e)
                     }}
                 >
-                    View
+                    {action === "event" ? (
+                      <>
+                          <Eye className="w-4 h-4"/>
+                          View
+                      </>
+                    ) : (
+                      <>
+                          <QrCode className="w-4 h-4"/>
+                          Show Ticket
+                      </>
+                    )}
                 </Button>
 
                 {onDelete && (
@@ -147,7 +157,15 @@ const EventCard = ({
                             onDelete(event._id)
                         }}
                     >
-                        <Trash2 className="w-4 h-4"/>
+                       {action === "event" ? (
+                        <>
+                           <Trash2 className="w-4 h-4"/>
+                        </>
+                       ): (
+                        <>  
+                          <X className="w-4 h-4"/>
+                        </>
+                       )}
                     </Button>
                 )}
             </div>

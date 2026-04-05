@@ -26,27 +26,13 @@ export const createEvent = mutation({
     ticketPrice: v.optional(v.number()),
     coverImage: v.optional(v.string()),
     themeColor: v.optional(v.string()),
-    hasPro: v.optional(v.boolean()),
   },
 
   handler: async (ctx, args) => {
     try {
       const user = await ctx.runQuery(internal.users.getCurrentUser);
 
-      if (!hasPro && user.freeEventsCreated >= 1) {
-        throw new Error(
-          "Free event limit reached. Please upgrade to Pro to create more events.",
-        );
-      }
-
-      const defaultColor = "#1e3a8a";
-      if (!hasPro && args.themeColor && args.themeColor !== defaultColor) {
-        throw new Error(
-          "Custom theme color are a Pro feature. Please upgrade to Pro.",
-        );
-      }
-
-      const themeColor = hasPro ? args.themeColor : defaultColor;
+      const themeColor = args.themeColor
 
       const slug = args.title
         .toLowerCase()
@@ -96,7 +82,7 @@ export const getMyEvents = query({
         const currentUser = await ctx.runQuery(internal.users.getCurrentUser)
 
         const events = await ctx.db.query("events")
-                                    .withIndex("by_organizer", (q) => q.eq("organizer_id", currentUser._id))
+                                    .withIndex("by_organizer", (q) => q.eq("organizerId", currentUser._id))
                                     .order("desc")
                                     .collect();
 
@@ -105,7 +91,7 @@ export const getMyEvents = query({
 })
 
 //Delete event
-export const deleteEvents = query({
+export const deleteEvents = mutation({
     args: {eventId: v.id("events")},
     handler: async(ctx, args) => {
 

@@ -6,6 +6,7 @@ import { ConvexClientProvider } from "./ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
  import { dark } from '@clerk/ui/themes'
 import { Toaster } from "sonner";
+import { Inter, Outfit } from "next/font/google";
 
 
 export const metadata = {
@@ -14,12 +15,17 @@ export const metadata = {
     "Find and explore the best spots around you. Your guide to hidden gems and popular destinations.",
 };
 
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+});
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={outfit.variable}>
       <body
         className={
-          "bg-linear-to-br from-gray-950 via-zinc-900 to-stone-900 text-white"
+          `bg-linear-to-br from-gray-950 via-zinc-900 to-stone-900 text-white ${outfit.className}`
         }
       >
         <ThemeProvider
